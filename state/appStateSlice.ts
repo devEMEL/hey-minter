@@ -40,16 +40,8 @@ const initialState: stateInterface = {
 
 export const fetchNfts = createAsyncThunk("nfts/fetchNfts", async (requestURL: string) => {
     const response = await axios.get(requestURL);
-    console.log(response.data.data.nfts);
     return response.data.data.nfts;
-    // if (!response.ok) { 
-    //     console.log("ERR")
-    //     throw new Error("Network response was not OK")
-    //  };
 
-    // console.log("GOOD");
-    // console.log(response.data.nfts);
-    // return await response.json();
 })
 
 const appStateSlice = createSlice({

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { useDebounce } from "use-debounce";
+import { getImageURI } from "@/helpers";
 
 
 // The AddProductModal component is used to add a product to the marketplace
@@ -53,7 +54,8 @@ const AddCollectionModal = () => {
         if (!debouncedName || !debouncedSymbol || !debouncedImageFile || !debouncedImagePreview || !debouncedPrice || !debouncedTotalSupply) return;
         console.log({
             debouncedName, debouncedSymbol, debouncedImageFile, debouncedPrice, debouncedTotalSupply
-        })
+        });
+
 
         // try {
         //   // Display a notification while the product is being added to the marketplace
@@ -136,8 +138,10 @@ const AddCollectionModal = () => {
                                         />
                                         <label className="relative">NFT Image
                                             <input
-                                                onChange={(e) => {
+                                                onChange={async(e) => {
                                                     const file = e.target.files[0];
+                                                    const upload = await getImageURI(file);
+                                                    console.log(upload);
 
                                                     if (file) {
 

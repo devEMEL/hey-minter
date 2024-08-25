@@ -14,9 +14,8 @@ const CollectionList = () => {
 
     useEffect(() => {
         if (loading === false) {
-            console.log("LFG");
+            // console.log("LFG");
             dispatch(fetchNfts("https://hey-minter-api.vercel.app/api/v1/nfts"));
-            console.log(items);
         }
     })
 
