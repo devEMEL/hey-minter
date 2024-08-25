@@ -134,7 +134,7 @@ const AddCollectionModal = () => {
                                             type="text"
                                             className="w-full bg-gray-100 p-2 mt-2 mb-3 bg-transparent focus:outline-none border-b border-[#000000]"
                                         />
-                                        <label>NFT Image
+                                        <label className="relative">NFT Image
                                             <input
                                                 onChange={(e) => {
                                                     const file = e.target.files[0];
@@ -144,12 +144,13 @@ const AddCollectionModal = () => {
                                                         setImageFile(file);
                                                         const reader = new FileReader();
                                                         console.log("hi")
-                                                        reader.addEventListener("loadend", () => {
-                                                            // console.log(typeof reader.result);
-                                                            // setImagePreview(reader.result);
-                                                            // reader.readAsDataURL(file);
+                                                        reader.onloadend = () => {
+
+                                                            setImagePreview(reader.result);
+
                                                             console.log("hello")
-                                                        });
+                                                        };
+                                                        reader.readAsDataURL(file);
 
                                                     }
 
@@ -160,7 +161,7 @@ const AddCollectionModal = () => {
                                                 className="w-full bg-gray-100 p-2 mt-2 mb-3 bg-transparent focus:outline-none border-b border-[#000000]"
                                             />
                                             {
-                                                imagePreview && (<img src={imagePreview} alt="llllll" className="max-w-sm bg-black" />)
+                                                imagePreview && (<img src={imagePreview} alt="image preview" className="w-20 bg-black absolute top-[0%] right-[20%]" />)
                                             }
                                         </label>
                                         <label>Price (In ETH, input 0 if its a free collection)</label>

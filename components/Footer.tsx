@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { DiscordIcon, TwitterIcon } from "./Icons";
 
 type Props = {
@@ -23,7 +24,7 @@ export default function Footer() {
             <div className="mx-auto max-w-7xl py-6 px-5 sm:px-6 lg:px-8">
                 <div className="flex justify-center items-center space-x-6 md:order-2">
                     {navigation.map((item) => (
-                        <a
+                        <Link
                             key={item.name}
                             href={item.href}
                             className=" hover:text-forest mt-5"
@@ -32,13 +33,13 @@ export default function Footer() {
 
                         >
                             {item.icon()}
-                        </a>
+                        </Link>
 
                     ))}
 
 
                 </div>
-                <p className="text-center mt-4 tracking-widest">Powered by <span className="underline"><a href="/">Zircuit</a></span></p>
+                <p className="text-center mt-4 tracking-widest">Powered by <span className="underline"><Link href="/" target="_blank">Zircuit</Link></span></p>
             </div>
         </footer>
     );

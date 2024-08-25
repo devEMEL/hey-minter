@@ -33,16 +33,16 @@ export default function Header() {
                     <div>
                         {/* LOGO IMG AND NAME (img w-16 or so) */}
                         <h2>
-                            <a href="/" className="hover:text-gray-500">Hey Minter</a>
+                            <Link href="/" className="hover:text-gray-500">Hey Minter</Link>
                         </h2>
                     </div>
                     <div className={isMobileMenuOpen ? "md:static absolute bg-[#ffffff] md:min-h-fit min-h-[30vh] left-0 top-[7%] md:w-auto w-full flex md:items-center px-5 py-10 md:py-0" : "md:static absolute bg-[#ffffff] md:min-h-fit min-h-[30vh] left-0 top-[-100%] md:w-auto w-full flex md:items-center px-5 py-10 md:py-0"}>
                         <ul className="flex md:flex-row flex-col items-center md:gap-[4vw] gap-4">
                             <li>
-                                <a href="/" className="hover:text-gray-500">Collections</a>
+                                <Link href="/" className="hover:text-gray-500">Collections</Link>
                             </li>
                             <li>
-                                <a href="/profile" className="hover:text-gray-500">My Profile</a>
+                                <Link href="/profile" className="hover:text-gray-500">My Profile</Link>
                             </li>
                         </ul>
                     </div>
