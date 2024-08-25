@@ -1,5 +1,6 @@
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 interface itemsInterface {
     chainId: number;
@@ -10,7 +11,7 @@ interface itemsInterface {
     timestamp: number;
     price: number;
     maxSupply: number;
-    imageURL: string;
+    imageURI: string;
 }
 
 interface stateInterface {
@@ -20,26 +21,35 @@ interface stateInterface {
 };
 
 const initialState: stateInterface = {
-    items: [{
-        chainId: 111555,
-        contractAddress: "0xsknnkkf",
-        name: "Dominic Art",
-        symbol: "DAT",
-        creator: "0xhjkkajioHIOICHIHoonciiowowoowowwolooo",
-        timestamp: 1908494909101,
-        price: 12,
-        maxSupply: 1000,
-        imageURL: "https://maroon-major-crawdad-175.mypinata.cloud/ipfs/bafkreiaiqqqnwyvi5gksqfwsqihdt7izf5fklnbehal7elyusducquwq6i",
-    }],
+    items: [
+        //     {
+        //     chainId: 111555,
+        //     contractAddress: "0xsknnkkflepo",
+        //     name: "Dominic Art",
+        //     symbol: "DAT",
+        //     creator: "0xhjkkajioHIOICHIHoonciiowowoowowwolooo",
+        //     timestamp: 1908494909101,
+        //     price: 12,
+        //     maxSupply: 1000,
+        //     imageURL: "ipfs://bafkreiaiqqqnwyvi5gksqfwsqihdt7izf5fklnbehal7elyusducquwq6i",
+        // }
+    ],
     loading: false,
     error: null,
 };
 
-const fetchNfts = createAsyncThunk("nfts/fetchNfts", async (requestURL: string) => {
-    const response = await fetch(requestURL);
-    if (!response.ok) throw new Error("Network response was not OK");
+export const fetchNfts = createAsyncThunk("nfts/fetchNfts", async (requestURL: string) => {
+    const response = await axios.get(requestURL);
+    console.log(response.data.data.nfts);
+    return response.data.data.nfts;
+    // if (!response.ok) { 
+    //     console.log("ERR")
+    //     throw new Error("Network response was not OK")
+    //  };
 
-    return await response.json();
+    // console.log("GOOD");
+    // console.log(response.data.nfts);
+    // return await response.json();
 })
 
 const appStateSlice = createSlice({
