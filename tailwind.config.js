@@ -26,7 +26,13 @@ module.exports = {
         "citrus": "#FF9A51",
         "lotus": "#FFA3EB",
         "lavender": "#B490FF"
-      }
+      },
+      fontFamily: {
+        roboto: ['Roboto', 'sans-serif'],
+        moderustic: ['Moderustic', 'sans-serif'],
+        qwitcher: ['Qwitcher Grypen', 'cursive'],
+        matemasie: ['Matemasie', 'serif'],
+      },
     },
   },
   plugins: [],

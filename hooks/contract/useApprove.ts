@@ -5,7 +5,8 @@ import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 // Import the ERC20 ABI(Interface)
 import Erc20Instance from "../../abi/erc20.json";
 // Import the Marketplace ABI(Interface)
-import MarketplaceInstance from "../../abi/NewzPay.json";
+// NFTCollectionFactory
+import NFTCollectionFactoryInstance from "../../abi/NFTCollectionFactory.json";
 // Import BigNumber from ethers to handle big numbers used in Celo
 import {BigNumber} from "ethers";
 
@@ -22,7 +23,7 @@ export const useContractApprove = (price: number | string) => {
         // The smart contract function name to call
         functionName: 'approve',
         // The arguments to pass to the smart contract function, in this case the Marketplace address and the product price
-        args: [MarketplaceInstance.address, price],
+        args: [NFTCollectionFactoryInstance.address, price],
         // The gas limit to use when sending a transaction
         overrides: {
             gasLimit
