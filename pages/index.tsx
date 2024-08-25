@@ -1,5 +1,6 @@
 
 import AddCollectionModal from "@/components/AddCollectionModal";
+import CollectionList from "@/components/CollectionList";
 import Head from "next/head";
 
 // Export the Home component
@@ -7,6 +8,7 @@ export default function Home() {
   return (
     <div>
       <Head>
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
         <title>Hey Minter</title>
         <meta
           httpEquiv="Content-Security-Policy"
@@ -14,7 +16,7 @@ export default function Home() {
         ></meta>
       </Head>
       <AddCollectionModal />
-      {/* <ProductList /> */}
+      <CollectionList />
     </div>
   );
 }

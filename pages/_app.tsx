@@ -15,6 +15,8 @@ import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
 import Layout from "../components/Layout";
 import { ToastContainer } from "react-toastify";
+import { Provider } from "react-redux";
+import { store } from "../state/store";
 
 import { publicProvider } from "wagmi/providers/public";
 const Scroll_sepolia: Chain = {
@@ -59,12 +61,15 @@ const wagmiClient = createClient({
 
 // Create and export the App component wrapped with the RainbowKitProvider and WagmiConfig.
 function App({ Component, pageProps }: AppProps) {
+
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains} coolMode={true}>
         <ToastContainer position={"bottom-center"} />
         <Layout>
-          <Component {...pageProps} />
+          <Provider store={store}>
+            <Component {...pageProps} />
+          </Provider>
         </Layout>
       </RainbowKitProvider>
     </WagmiConfig>
