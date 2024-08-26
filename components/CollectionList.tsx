@@ -61,25 +61,15 @@ const CollectionList = () => {
         // amount, tokenURI
         const amount = BigInt(1);
 
-        const tx = await mintNFTcontract.mintNFT(amount, tokenURI);
+        const tx = await mintNFTcontract.mintNFT(amount, tokenURI, {
+            value: BigInt(0)
+        });
         await tx.wait();
 
         const contract_ = new ethers.Contract(contractAddress, NFTCollection.abi, provider);
         const newTokenId = await contract_._tokenIds();
         console.log(String(newTokenId));
 
-        // const priceInWei = etherToWei(price);
-        // const _totalSupply = BigInt(totalSupply);
-
-        // const chainId = await mySigner.getChainId();
-
-        // console.log({
-        //     name, symbol,priceInWei, _totalSupply, imageURI
-        // })
-        // const tx = await contract.createCollection(name, symbol, priceInWei, _totalSupply, imageURI);
-
-        // const response = await tx.wait();
-        // console.log(response);
 
         // Emit event and update database (amount minted) with it;
     }
