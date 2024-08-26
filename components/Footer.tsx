@@ -39,7 +39,7 @@ export default function Footer() {
 
 
                 </div>
-                <p className="text-center mt-4 tracking-widest">Powered by <span className="underline"><Link href="/" target="_blank">Zircuit</Link></span></p>
+                <p className="text-center mt-4 tracking-widest">A product of Kombat Odyssey</p>
             </div>
         </footer>
     );

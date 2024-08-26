@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useAccount, useBalance } from "wagmi";
 import Link from "next/link";
 import { ConnectButtonJSX } from "./ConnectButtonJSX";
+import kombatOdysseyImg from "../public/kombat-odyssey.jpeg";
 
 export default function Header() {
     // Use the useAccount hook to store the user's address
@@ -32,8 +33,9 @@ export default function Header() {
                 <nav className="flex justify-between itens-center">
                     <div>
                         {/* LOGO IMG AND NAME (img w-16 or so) */}
-                        <h2>
+                        <h2 className="flex gap-2">
                             <Link href="/" className="hover:text-gray-500">Hey Minter</Link>
+                            <Image src={kombatOdysseyImg} className="w-5 h-5 rounded-full h-auto" alt="" />
                         </h2>
                     </div>
                     <div className={isMobileMenuOpen ? "md:static absolute bg-[#ffffff] md:min-h-fit min-h-[30vh] left-0 top-[7%] md:w-auto w-full flex md:items-center px-5 py-10 md:py-0" : "md:static absolute bg-[#ffffff] md:min-h-fit min-h-[30vh] left-0 top-[-100%] md:w-auto w-full flex md:items-center px-5 py-10 md:py-0"}>

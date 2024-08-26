@@ -36,21 +36,6 @@ const AddCollectionModal = () => {
     const [debouncedTotalSupply] = useDebounce(totalSupply, 500);
 
     const { data: signer } = useSigner();
-    const dispatch = useDispatch<AppDispatch>();
-    const provider = useProvider();
-
-    // const getChainId = async () => {
-    //     if (signer) {
-    //         try {
-    //             const chainId = await signer.getChainId();
-    //             console.log(chainId);
-    //             return chainId;
-    //         } catch (err) {
-    //             console.log(err);
-    //         }
-    //     }
-    // }
-
 
     // Clear the input fields after the product is added to the marketplace
     const clearForm = () => {
@@ -104,20 +89,13 @@ const AddCollectionModal = () => {
             createdAt: Number(String(events[0].args?.timeCreated)),
             price: Number(String(events[0].args?.price)),
             maxSupply: Number(String(events[0].args?.maxSupply)),
-            imageURI: events[0].args?.maxSupply
+            imageURI: events[0].args?.imageURI,
 
         }
         console.log(eventObj);
 
-        // const postObj = await axios.post("https://hey-minter-api.vercel.app/api/v1/nfts", eventObj);
-        // console.log(postObj);
-        // dispatch(fetchNfts("https://hey-minter-api.vercel.app/api/v1/nfts"));
-
-
-        // 2. Emit events
-        // 3. Use event data and make a post request
-        // 4. FetchNfts
-
+        const postObj = await axios.post("https://hey-minter-api.vercel.app/api/v1/nfts", eventObj);
+        console.log(postObj);
 
     };
 

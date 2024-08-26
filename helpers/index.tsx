@@ -42,7 +42,7 @@ export const etherToWei = (amountInEther: string) => {
     return ethers.utils.parseEther(amountInEther);
 }
 
-export const weiToEther = (amountInWei: any) => {
+export const weiToEther = (amountInWei: string) => {
     return ethers.utils.formatEther(amountInWei);
 }
 
@@ -148,3 +148,5 @@ await main();
  * 
  * 
  */
+
+// https://maroon-major-crawdad-175.mypinata.cloud/ipfs/bafkreid4xdpjo2bmjiurykquhsnni5yaf44jwbkslpin6yv5eeig45wcii
