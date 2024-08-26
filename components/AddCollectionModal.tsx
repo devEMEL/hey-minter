@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { useDebounce } from "use-debounce";
-import { getImageURI } from "@/helpers";
+import { getImageURI, getTokenURI, SCROLL_SEPOLIA_CA } from "@/helpers";
+import { useSigner, useProvider } from "wagmi";
+import { FileObject } from "pinata";
+import { ethers, Signer } from "ethers";
+import NFTCollectionFactory from "../abi/NFTCollectionFactory.json";
 
 
 // The AddProductModal component is used to add a product to the marketplace
@@ -12,10 +16,10 @@ const AddCollectionModal = () => {
     // The following states are used to store the values of the form fields
     const [name, setName] = useState("");
     const [symbol, setSymbol] = useState("");
-    const [imageFile, setImageFile] = useState(null);
+    const [imageFile, setImageFile] = useState<FileObject>(new File([], ""));
     const [imagePreview, setImagePreview] = useState("");
-    const [price, setPrice] = useState(0);
-    const [totalSupply, setTotalSupply] = useState(0);
+    const [price, setPrice] = useState("");
+    const [totalSupply, setTotalSupply] = useState("");
 
 
     // The following states are used to store the debounced values of the form fields
@@ -26,18 +30,34 @@ const AddCollectionModal = () => {
     const [debouncedPrice] = useDebounce(price, 500);
     const [debouncedTotalSupply] = useDebounce(totalSupply, 500);
 
+    const { data: signer } = useSigner();
+    const provider = useProvider();
 
-    // Check if all the input fields are filled
-    const isComplete = name && symbol;
+    const getChainId = async () => {
+        if (signer) {
+            try {
+                const chainId = await signer.getChainId();
+                console.log(chainId);
+                return chainId;
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    }
+
 
     // Clear the input fields after the product is added to the marketplace
     const clearForm = () => {
         setName("");
         setSymbol("");
-        setImageFile(null);
+        setImageFile(new File([], ""));
         setImagePreview("");
         setPrice(0);
         setTotalSupply(0);
+        console.log("cleared");
+        console.log({
+            debouncedName, debouncedSymbol, debouncedImageFile, debouncedPrice, debouncedTotalSupply
+        });
     };
 
 
@@ -45,7 +65,17 @@ const AddCollectionModal = () => {
     // Define function that handles the creation of a product through the marketplace contract
     const handleCreateProduct = async () => {
         //LOGIC HERE
-        clearForm();
+        // const imageURI = await getImageURI(debouncedImageFile);
+        // console.log(imageURI);
+        // 1. Make a createCollection txn 
+        const mySigner = signer as Signer;
+        const contract = new ethers.Contract(SCROLL_SEPOLIA_CA, NFTCollectionFactory.abi, mySigner);
+        console.log("CA: ", contract.address)
+        // 2. Emit events
+        // 3. Use event data and make a post request
+        // 4. FetchNfts
+
+
     };
 
     // Define function that handles the creation of a product, if a user submits the product form
@@ -55,6 +85,22 @@ const AddCollectionModal = () => {
         console.log({
             debouncedName, debouncedSymbol, debouncedImageFile, debouncedPrice, debouncedTotalSupply
         });
+        try {
+            console.log("start");
+            await toast.promise(handleCreateProduct(), {
+                pending: "Creating NFT Collection...",
+                success: "NFT Collection created successfully",
+                error: "Something went wrong. Try again.",
+            });
+
+        } catch (e: any) {
+            console.log({ e });
+            toast.error(e?.message || "Something went wrong. Try again.");
+        } finally {
+
+            clearForm();
+            setVisible(false);
+        }
 
 
         // try {
@@ -74,6 +120,9 @@ const AddCollectionModal = () => {
         // }
     };
 
+    useEffect(() => {
+        getChainId();
+    })
 
     // Define the JSX that will be rendered
     return (
@@ -122,6 +171,7 @@ const AddCollectionModal = () => {
                                             onChange={(e) => {
                                                 setName(e.target.value);
                                             }}
+                                            value={name}
                                             required
                                             type="text"
                                             className="w-full bg-gray-100 p-2 mt-2 mb-3 bg-transparent focus:outline-none border-b border-[#000000]"
@@ -132,17 +182,15 @@ const AddCollectionModal = () => {
                                             onChange={(e) => {
                                                 setSymbol(e.target.value);
                                             }}
+                                            value={symbol}
                                             required
                                             type="text"
                                             className="w-full bg-gray-100 p-2 mt-2 mb-3 bg-transparent focus:outline-none border-b border-[#000000]"
                                         />
                                         <label className="relative">NFT Image
                                             <input
-                                                onChange={async(e) => {
+                                                onChange={async (e) => {
                                                     const file = e.target.files[0];
-                                                    const upload = await getImageURI(file);
-                                                    console.log(upload);
-
                                                     if (file) {
 
                                                         setImageFile(file);
@@ -159,6 +207,7 @@ const AddCollectionModal = () => {
                                                     }
 
                                                 }}
+                                            
                                                 required
                                                 type="file"
                                                 accept="image/*"
@@ -171,8 +220,9 @@ const AddCollectionModal = () => {
                                         <label>Price (In ETH, input 0 if its a free collection)</label>
                                         <input
                                             onChange={(e) => {
-                                                setPrice(e.target.value as unknown as number);
+                                                setPrice(e.target.value);
                                             }}
+                                            value={price}
                                             required
                                             type="text"
                                             className="w-full bg-gray-100 p-2 mt-2 mb-3 bg-transparent focus:outline-none border-b border-[#000000]"
@@ -180,8 +230,9 @@ const AddCollectionModal = () => {
                                         <label>Total Supply</label>
                                         <input
                                             onChange={(e) => {
-                                                setTotalSupply(e.target.value as unknown as number);
+                                                setTotalSupply(e.target.value);
                                             }}
+                                            value={totalSupply}
                                             required
                                             type="text"
                                             className="w-full bg-gray-100 p-2 mt-2 mb-3 bg-transparent focus:outline-none border-b border-[#000000]"

@@ -3,16 +3,13 @@ import { ethers } from 'ethers';
 import Blockies from 'react-blockies';
 
 import { FileObject, PinataSDK } from "pinata"
-import dotenv from "dotenv";
-import fs from "fs"
-import { Blob } from "buffer";
-dotenv.config();
 
+export const SCROLL_SEPOLIA_CA = "0xAfF72Db3fA597546517d172be9A530E99AEDddFE";
 
 const IMAGE_SAMPLE = "https://maroon-major-crawdad-175.mypinata.cloud/ipfs/bafkreiaiqqqnwyvi5gksqfwsqihdt7izf5fklnbehal7elyusducquwq6i"
 
 const pinata = new PinataSDK({
-    pinataJwt: process.env.PINATA_JWT,
+    pinataJwt: process.env.NEXT_PUBLIC_PINATA_JWT,
     pinataGateway: "maroon-major-crawdad-175.mypinata.cloud",
 });
 
@@ -44,15 +41,19 @@ export const weiToEthers = (amountInWei: number) => {
     return ethers.utils.formatEther(amountInWei);
 }
 
-export const getImageURI = async (imageURI: FileObject) => {
-    console.log(process.env.)
-    const upload = await pinata.upload.file(imageURI);
-    return upload;
+export const getImageURI = async (imageFile: FileObject) => {
+
+    const upload = await pinata.upload.file(imageFile);
+    console.log(`ipfs://${upload.IpfsHash}`)
+    return `ipfs://${upload.IpfsHash}`;
 }
 
-export const getTokenURI = async (tokenURI) => {
-
+export const getTokenURI = async (metadata: object) => {
+    const upload = await pinata.upload.json(metadata);
+    console.log(`ipfs://${upload.IpfsHash}`);
+    return `ipfs://${upload.IpfsHash}`;
 }
+
 
 
 
