@@ -1,4 +1,4 @@
-import { imageURIToSrc, truncateAddress, weiToEthers } from '@/helpers';
+import { imageURIToSrc, truncateAddress, weiToEther } from '@/helpers';
 import { AppDispatch, RootState } from '@/state/store';
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
@@ -47,7 +47,7 @@ const CollectionList = () => {
                                 </td>
                                 <td className='py-6 px-6'>{el.name}</td>
                                 <td className='py-6 px-6'>{truncateAddress(el.contractAddress)}</td>
-                                <td className='py-6 px-6'>{weiToEthers(el.price)}</td>
+                                <td className='py-6 px-6'>{weiToEther(el.price)}</td>
                                 <td className='py-6 px-6'>{el.maxSupply}</td>
                                 <td className='py-6 px-6'>
                                     <button className='bg-gray-800 text-[#ffffff] py-1 px-4'>

@@ -37,7 +37,11 @@ export const imageURIToSrc = (imageURI: string) => {
     return imageSrc;
 }
 
-export const weiToEthers = (amountInWei: number) => {
+export const etherToWei = (amountInEther: string) => {
+    return ethers.utils.parseEther(amountInEther);
+}
+
+export const weiToEther = (amountInWei: any) => {
     return ethers.utils.formatEther(amountInWei);
 }
 

@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { useDebounce } from "use-debounce";
-import { getImageURI, getTokenURI, SCROLL_SEPOLIA_CA } from "@/helpers";
+import { etherToWei, getImageURI, getTokenURI, SCROLL_SEPOLIA_CA } from "@/helpers";
 import { useSigner, useProvider } from "wagmi";
 import { FileObject } from "pinata";
 import { ethers, Signer } from "ethers";
 import NFTCollectionFactory from "../abi/NFTCollectionFactory.json";
+import Web3 from "web3";
 
 
 // The AddProductModal component is used to add a product to the marketplace
@@ -31,19 +32,19 @@ const AddCollectionModal = () => {
     const [debouncedTotalSupply] = useDebounce(totalSupply, 500);
 
     const { data: signer } = useSigner();
-    const provider = useProvider();
+    // const provider = useProvider();
 
-    const getChainId = async () => {
-        if (signer) {
-            try {
-                const chainId = await signer.getChainId();
-                console.log(chainId);
-                return chainId;
-            } catch (err) {
-                console.log(err);
-            }
-        }
-    }
+    // const getChainId = async () => {
+    //     if (signer) {
+    //         try {
+    //             const chainId = await signer.getChainId();
+    //             console.log(chainId);
+    //             return chainId;
+    //         } catch (err) {
+    //             console.log(err);
+    //         }
+    //     }
+    // }
 
 
     // Clear the input fields after the product is added to the marketplace
@@ -52,8 +53,8 @@ const AddCollectionModal = () => {
         setSymbol("");
         setImageFile(new File([], ""));
         setImagePreview("");
-        setPrice(0);
-        setTotalSupply(0);
+        setPrice("");
+        setTotalSupply("");
         console.log("cleared");
         console.log({
             debouncedName, debouncedSymbol, debouncedImageFile, debouncedPrice, debouncedTotalSupply
@@ -61,16 +62,32 @@ const AddCollectionModal = () => {
     };
 
 
-
     // Define function that handles the creation of a product through the marketplace contract
     const handleCreateProduct = async () => {
         //LOGIC HERE
-        // const imageURI = await getImageURI(debouncedImageFile);
-        // console.log(imageURI);
+        const imageURI = await getImageURI(debouncedImageFile);
+        console.log(imageURI);
         // 1. Make a createCollection txn 
         const mySigner = signer as Signer;
         const contract = new ethers.Contract(SCROLL_SEPOLIA_CA, NFTCollectionFactory.abi, mySigner);
-        console.log("CA: ", contract.address)
+
+        const priceInWei = etherToWei(price);
+        const totalSupplyInWei = etherToWei(totalSupply);
+
+        // const chainId = await mySigner.getChainId();
+
+
+        const tx = await contract.createCollection(name, symbol, priceInWei, totalSupplyInWei, imageURI);
+
+        const response = await tx.wait();
+        console.log(response);
+        
+
+        const filter = contract.filters.CollectionCreated();
+        const events = await contract.queryFilter(filter, response.blockNumber);
+        console.log(events[0].args);
+
+        // events (address indexed  collectionAddress, string name, string symbol, address owner, uint256 timeCreated, uint256 price, uint256 maxSupply, string imageURI);
         // 2. Emit events
         // 3. Use event data and make a post request
         // 4. FetchNfts
@@ -121,7 +138,7 @@ const AddCollectionModal = () => {
     };
 
     useEffect(() => {
-        getChainId();
+        // getChainId();
     })
 
     // Define the JSX that will be rendered
@@ -244,7 +261,8 @@ const AddCollectionModal = () => {
                                         <button
                                             type="button"
                                             className="py-2 px-4 text-[#000000] rounded mr-2"
-                                            onClick={() => setVisible(false)}
+                                            onClick={() => {setVisible(false); clearForm()}}
+
                                         >
                                             <i className="fas fa-times"></i> Cancel
                                         </button>
