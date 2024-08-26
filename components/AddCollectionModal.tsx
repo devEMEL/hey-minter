@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { useDebounce } from "use-debounce";
-import { etherToWei, getImageURI, getTokenURI, SCROLL_SEPOLIA_CA } from "@/helpers";
+import { etherToWei, getImageURI, getTokenURI, SCROLL_SEPOLIA_CA, SEPOLIA_CA } from "@/helpers";
 import { useSigner, useProvider } from "wagmi";
 import { FileObject } from "pinata";
 import { ethers, Signer } from "ethers";
 import NFTCollectionFactory from "../abi/NFTCollectionFactory.json";
 import Web3 from "web3";
+import axios from "axios";
+import { fetchNfts } from "@/state/appStateSlice";
+import { AppDispatch } from "@/state/store";
+import { useDispatch } from "react-redux";
 
 
 // The AddProductModal component is used to add a product to the marketplace
@@ -32,7 +36,8 @@ const AddCollectionModal = () => {
     const [debouncedTotalSupply] = useDebounce(totalSupply, 500);
 
     const { data: signer } = useSigner();
-    // const provider = useProvider();
+    const dispatch = useDispatch<AppDispatch>();
+    const provider = useProvider();
 
     // const getChainId = async () => {
     //     if (signer) {
@@ -67,27 +72,48 @@ const AddCollectionModal = () => {
         //LOGIC HERE
         const imageURI = await getImageURI(debouncedImageFile);
         console.log(imageURI);
+
         // 1. Make a createCollection txn 
         const mySigner = signer as Signer;
         const contract = new ethers.Contract(SCROLL_SEPOLIA_CA, NFTCollectionFactory.abi, mySigner);
 
         const priceInWei = etherToWei(price);
-        const totalSupplyInWei = etherToWei(totalSupply);
+        const _totalSupply = BigInt(totalSupply);
 
-        // const chainId = await mySigner.getChainId();
+        const chainId = await mySigner.getChainId();
 
-
-        const tx = await contract.createCollection(name, symbol, priceInWei, totalSupplyInWei, imageURI);
+        console.log({
+            name, symbol,priceInWei, _totalSupply, imageURI
+        })
+        const tx = await contract.createCollection(name, symbol, priceInWei, _totalSupply, imageURI);
 
         const response = await tx.wait();
         console.log(response);
-        
+
 
         const filter = contract.filters.CollectionCreated();
         const events = await contract.queryFilter(filter, response.blockNumber);
-        console.log(events[0].args);
+        console.log(events[0].args?.collectionAddress || "hello");
 
-        // events (address indexed  collectionAddress, string name, string symbol, address owner, uint256 timeCreated, uint256 price, uint256 maxSupply, string imageURI);
+        const eventObj = {
+            chainId,
+            contractAddress: events[0].args?.collectionAddress,
+            name: events[0].args?.name,
+            symbol: events[0].args?.symbol,
+            creator: events[0].args?.owner,
+            createdAt: Number(String(events[0].args?.timeCreated)),
+            price: Number(String(events[0].args?.price)),
+            maxSupply: Number(String(events[0].args?.maxSupply)),
+            imageURI: events[0].args?.maxSupply
+
+        }
+        console.log(eventObj);
+
+        // const postObj = await axios.post("https://hey-minter-api.vercel.app/api/v1/nfts", eventObj);
+        // console.log(postObj);
+        // dispatch(fetchNfts("https://hey-minter-api.vercel.app/api/v1/nfts"));
+
+
         // 2. Emit events
         // 3. Use event data and make a post request
         // 4. FetchNfts
@@ -120,21 +146,6 @@ const AddCollectionModal = () => {
         }
 
 
-        // try {
-        //   // Display a notification while the product is being added to the marketplace
-        //   await toast.promise(handleCreateProduct(), {
-        //     pending: "Creating news...",
-        //     success: "News created successfully",
-        //     error: "Something went wrong. Try again.",
-        //   });
-        //   // Display an error message if something goes wrong
-        // } catch (e: any) {
-        //   console.log({ e });
-        //   toast.error(e?.message || "Something went wrong. Try again.");
-        //   // Clear the loading state after the product is added to the marketplace
-        // } finally {
-        // //   setLoading("");
-        // }
     };
 
     useEffect(() => {
@@ -224,7 +235,7 @@ const AddCollectionModal = () => {
                                                     }
 
                                                 }}
-                                            
+
                                                 required
                                                 type="file"
                                                 accept="image/*"
@@ -261,7 +272,7 @@ const AddCollectionModal = () => {
                                         <button
                                             type="button"
                                             className="py-2 px-4 text-[#000000] rounded mr-2"
-                                            onClick={() => {setVisible(false); clearForm()}}
+                                            onClick={() => { setVisible(false); clearForm() }}
 
                                         >
                                             <i className="fas fa-times"></i> Cancel

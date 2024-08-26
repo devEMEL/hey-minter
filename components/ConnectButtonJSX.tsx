@@ -34,7 +34,7 @@ export const ConnectButtonJSX = () => {
             {(() => {
               if (!connected) {
                 return (
-                  <button onClick={openConnectModal} type="button" className='text-[#ffffff] bg-[#000000] px-5 py-2 text-[14px] rounded-full hover:bg-[#000009] font-qwitcher'>
+                  <button onClick={() => {openConnectModal}} type="button" className='text-[#ffffff] bg-[#000000] px-5 py-2 text-[14px] rounded-full hover:bg-[#000009] font-qwitcher'>
                     Connect Wallet
                   </button>
                 );

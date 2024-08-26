@@ -5,13 +5,9 @@ import "@rainbow-me/rainbowkit/styles.css";
 
 import type { AppProps } from "next/app";
 
-import { connectorsForWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
-
-import { metaMaskWallet } from "@rainbow-me/rainbowkit/wallets";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { Chain, getDefaultWallets } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
-
-import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
 import Layout from "../components/Layout";
 import { ToastContainer } from "react-toastify";
@@ -43,6 +39,32 @@ const Scroll_sepolia: Chain = {
 
   testnet: true,
 };
+
+const sepolia: Chain = {
+  id: 11155111,
+  name: "Sepolia Testnet",
+  network: "Sepolia Testnet",
+  iconUrl: "https://example.com/icon.svg",
+  iconBackground: "#fff",
+  nativeCurrency: {
+    decimals: 18,
+    name: "ETHEREUM",
+    symbol: "ETH",
+  },
+  rpcUrls: {
+    public: { http: ["https://eth-sepolia.g.alchemy.com/v2/oKxs-03sij-U_N0iOlrSsZFr29-IqbuF"] },
+    default: { http: ["https://eth-sepolia.g.alchemy.com/v2/oKxs-03sij-U_N0iOlrSsZFr29-IqbuF"] },
+  },
+  blockExplorers: {
+    default: {
+      name: "sepolia_etherscan",
+      url: "https://sepolia.etherscan.io"
+    }
+  },
+
+  testnet: true,
+};
+
 const { provider, chains } = configureChains([Scroll_sepolia], [publicProvider()]);
 
 
