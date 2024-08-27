@@ -6,6 +6,7 @@ import { useAccount, useBalance } from "wagmi";
 import Link from "next/link";
 import { ConnectButtonJSX } from "./ConnectButtonJSX";
 import kombatOdysseyImg from "../public/kombat-odyssey.jpeg";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export default function Header() {
     // Use the useAccount hook to store the user's address
@@ -50,7 +51,7 @@ export default function Header() {
                         </ul>
                     </div>
                     <div className="flex items-center gap-6">
-                        <ConnectButtonJSX />
+                        <ConnectButton />
                         <div className="md:hidden" onClick={handleToggleMenu}>
 
 

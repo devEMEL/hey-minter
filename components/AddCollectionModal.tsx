@@ -2,15 +2,12 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { useDebounce } from "use-debounce";
-import { etherToWei, getImageURI, getTokenURI, OPEN_CAMPUS_CA } from "@/helpers";
-import { useChainId, useWriteContract, useReadContract } from "wagmi";
+import { etherToWei, getImageURI, OPEN_CAMPUS_CA } from "@/helpers";
+import { useChainId } from "wagmi";
 import { FileObject } from "pinata";
-import { ethers, Signer } from "ethers";
+import { ethers } from "ethers";
 import NFTCollectionFactory from "../abi/NFTCollectionFactory.json";
 import axios from "axios";
-import { fetchNfts } from "@/state/appStateSlice";
-import { AppDispatch } from "@/state/store";
-import { useDispatch } from "react-redux";
 import { useEthersSigner } from "@/pages/_app";
 
 

@@ -120,6 +120,7 @@ const CollectionList = () => {
 
     useEffect(() => {
         if (loading === false) {
+            console.log(chainId);
             // console.log("LFG");
             dispatch(fetchNfts(`https://hey-minter-api.vercel.app/api/v1/nfts?chainId=${chainId}`));
         }

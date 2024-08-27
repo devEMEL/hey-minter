@@ -92,9 +92,10 @@ const openCampus = {
 const config = getDefaultConfig({
   appName: "NewzPay-Scroll",
   projectId: "cdddc2c45ee7a243f73916dfe293c0ca",
-  chains: [openCampus],
+  chains: [openCampus, scrollSepolia],
   transports: {
-    [openCampus.id]: http()
+    [openCampus.id]: http(),
+    [scrollSepolia.id]: http()
   }
 });
 
