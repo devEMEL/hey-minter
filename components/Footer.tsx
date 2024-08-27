@@ -13,7 +13,7 @@ const navigation = [
     },
     {
         name: "Discord Icon",
-        href: "https://portal.dymension.xyz/ibc",
+        href: "",
         icon: DiscordIcon,
     }
 ];
