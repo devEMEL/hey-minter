@@ -13,10 +13,11 @@ const navigation = [
     },
     {
         name: "Discord Icon",
-        href: "",
+        href: "https://discord.com/invite/QKvwARq5",
         icon: DiscordIcon,
     }
 ];
+
 
 export default function Footer() {
     return (
@@ -42,5 +43,6 @@ export default function Footer() {
                 <p className="text-center mt-4 tracking-widest">A product of Kombat Odyssey</p>
             </div>
         </footer>
+        
     );
 }
