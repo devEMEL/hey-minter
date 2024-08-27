@@ -86,7 +86,7 @@ function App({ Component, pageProps }: AppProps) {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider coolMode={true}>
-          <ToastContainer position={"bottom-center"} />
+          <ToastContainer position={"top-center"} />
           <Layout>
             <Provider store={store}>
               <Component {...pageProps} />

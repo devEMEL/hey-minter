@@ -1,6 +1,6 @@
 import { getTokenURI, imageURIToSrc, SCROLL_SEPOLIA_CA, truncateAddress, weiToEther } from '@/helpers';
 import { AppDispatch, RootState } from '@/state/store';
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchNfts } from '../state/appStateSlice';
 import { toast } from 'react-toastify';
@@ -8,8 +8,11 @@ import { ethers, parseUnits } from 'ethers';
 import NFTCollection from "../abi/NFTCollection.json";
 import { useEthersProvider, useEthersSigner } from '@/pages/_app';
 import { useChainId } from 'wagmi';
+import MintSuccessNotification from './MintSuccessNotification';
 
 const CollectionList = () => {
+
+    const [isVisible, setIsVisible] = useState(true);
 
     const items = useSelector((state: RootState) => state.appState.items);
     const loading = useSelector((state: RootState) => state.appState.loading);
@@ -103,9 +106,14 @@ const CollectionList = () => {
             console.log({ e });
             toast.error(e?.message || "Something went wrong. Try again.");
         } finally {
-
+            //display a notification with the image
+            
 
         }
+    }
+
+    const setVisibility = (val: boolean) => {
+        setIsVisible(val) // false
     }
 
 
@@ -131,7 +139,6 @@ const CollectionList = () => {
                         <th className='py-3 bg-gray-800 text-[#ffffff]'>Address</th>
                         <th className='py-3 bg-gray-800 text-[#ffffff]'>Price</th>
                         <th className='py-3 bg-gray-800 text-[#ffffff]'>Total Supply</th>
-                        <th className='py-3 bg-gray-800 text-[#ffffff]'>Amount Minted</th>
                         <th className='py-3 bg-gray-800 text-[#ffffff]'>Mint</th>
                     </tr>
                 </thead>
@@ -148,7 +155,6 @@ const CollectionList = () => {
                                 <td className='py-6 px-6'>{truncateAddress(el.contractAddress)}</td>
                                 <td className='py-6 px-6'>{Number(weiToEther(String(el.price)))}</td>
                                 <td className='py-6 px-6'>{el.maxSupply}</td>
-                                <td className='py-6 px-6'>{getAmountMinted(el.contractAddress)}</td>
                                 <td className='py-6 px-6'>
                                     <button className='bg-gray-800 text-[#ffffff] py-1 px-4'
                                         onClick={() => mintNFT(el.imageURI, el.name, el.contractAddress, el.price)}
@@ -162,6 +168,8 @@ const CollectionList = () => {
 
                 </tbody>
             </table>
+
+            <MintSuccessNotification isVisible={isVisible} setVisibility={setVisibility} />
         </div>
     )
 }
