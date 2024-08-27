@@ -67,12 +67,34 @@ export function useEthersSigner({ chainId }: { chainId?: number } = {}) {
   return useMemo(() => (client ? clientToSigner(client) : undefined), [client])
 }
 
+const openCampus = {
+  id: 0xa045c,
+  name: "openCampus",
+  nativeCurrency: {
+      decimals: 18,
+      name: "EDU CHAIN",
+      symbol: "EDU",
+  },
+  rpcUrls: {
+      public: { http: ["https://open-campus-codex-sepolia.drpc.org"] },
+      default: { http: ["https://open-campus-codex-sepolia.drpc.org"] },
+  },
+  blockExplorers: {
+    default: {
+      name: "openCampus",
+      url: "https://opencampus-codex.blockscout.com"
+    }
+  },
+
+  testnet: false,
+} as const satisfies Chain;
+
 const config = getDefaultConfig({
   appName: "NewzPay-Scroll",
   projectId: "cdddc2c45ee7a243f73916dfe293c0ca",
-  chains: [scrollSepolia],
+  chains: [openCampus],
   transports: {
-    [scrollSepolia.id]: http()
+    [openCampus.id]: http()
   }
 });
 

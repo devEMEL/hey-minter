@@ -6,7 +6,6 @@ const nextConfig = {
   webpack: (config) => {
     config.resolve.fallback = {
       fs: false,
-      react: path.resolve('./node_modules/react')
     };
     return config;
   },

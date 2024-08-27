@@ -5,6 +5,7 @@ import Blockies from 'react-blockies';
 import { FileObject, PinataSDK } from "pinata"
 
 export const SCROLL_SEPOLIA_CA = "0xcCE773934255eB4DA085e0E68A27F2251dA84F67";
+export const OPEN_CAMPUS_CA = "0xf690660A38095c7ed8Cc5e3e78b366702d9B2030";
 
 
 const IMAGE_SAMPLE = "https://maroon-major-crawdad-175.mypinata.cloud/ipfs/bafkreiaiqqqnwyvi5gksqfwsqihdt7izf5fklnbehal7elyusducquwq6i"

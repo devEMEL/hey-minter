@@ -149,7 +149,7 @@ const Product = ({ id, setError, setLoading, clear }: any) => {
                     </div>
 
                     <div className={"mr-4 mt-4 bg-amber-400 text-black p-1 rounded-l-lg px-4"}>
-                        {ethers.utils.formatEther(product.tips.toString())} ETH
+                        {ethers.formatEther(product.tips.toString())} ETH
                     </div>
                 </div>
 

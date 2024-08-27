@@ -12,7 +12,7 @@ import MintSuccessNotification from './MintSuccessNotification';
 
 const CollectionList = () => {
 
-    const [isVisible, setIsVisible] = useState(true);
+    // const [isVisible, setIsVisible] = useState(true);
 
     const items = useSelector((state: RootState) => state.appState.items);
     const loading = useSelector((state: RootState) => state.appState.loading);
@@ -112,16 +112,16 @@ const CollectionList = () => {
         }
     }
 
-    const setVisibility = (val: boolean) => {
-        setIsVisible(val) // false
-    }
+    // const setVisibility = (val: boolean) => {
+    //     setIsVisible(val) // false
+    // }
 
 
 
     useEffect(() => {
         if (loading === false) {
             // console.log("LFG");
-            dispatch(fetchNfts("https://hey-minter-api.vercel.app/api/v1/nfts"));
+            dispatch(fetchNfts(`https://hey-minter-api.vercel.app/api/v1/nfts?chainId=${chainId}`));
         }
     })
 
@@ -169,7 +169,7 @@ const CollectionList = () => {
                 </tbody>
             </table>
 
-            <MintSuccessNotification isVisible={isVisible} setVisibility={setVisibility} />
+            {/* <MintSuccessNotification isVisible={isVisible} setVisibility={setVisibility} /> */}
         </div>
     )
 }
