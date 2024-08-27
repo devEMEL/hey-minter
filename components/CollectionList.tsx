@@ -153,7 +153,7 @@ const CollectionList = () => {
                                 </td>
                                 <td className='py-6 px-6'>{el.name}</td>
                                 <td className='py-6 px-6'>{truncateAddress(el.contractAddress)}</td>
-                                <td className='py-6 px-6'>{Number(weiToEther(String(el.price)))}</td>
+                                <td className='py-6 px-6 text-[20px]'>{Number(weiToEther(String(el.price)))} <span className='text-[16px]'>EDU</span></td>
                                 <td className='py-6 px-6'>{el.maxSupply}</td>
                                 <td className='py-6 px-6'>
                                     <button className='bg-gray-800 text-[#ffffff] py-1 px-4'

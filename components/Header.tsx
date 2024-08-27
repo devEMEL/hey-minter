@@ -44,7 +44,8 @@ export default function Header() {
                                 <Link href="/" className="hover:text-gray-500">Collections</Link>
                             </li>
                             <li>
-                                <Link href="/profile" className="hover:text-gray-500">My Profile</Link>
+                                {/* <Link href="/profile" className="hover:text-gray-500">My Profile</Link> */}
+                                <p className="text-gray-500">My Profile</p>
                             </li>
                         </ul>
                     </div>
