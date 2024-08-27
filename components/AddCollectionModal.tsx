@@ -3,15 +3,15 @@ import { toast } from "react-toastify";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { useDebounce } from "use-debounce";
 import { etherToWei, getImageURI, getTokenURI, SCROLL_SEPOLIA_CA, SEPOLIA_CA } from "@/helpers";
-import { useSigner, useProvider } from "wagmi";
+import { useChainId, useWriteContract, useReadContract } from "wagmi";
 import { FileObject } from "pinata";
 import { ethers, Signer } from "ethers";
 import NFTCollectionFactory from "../abi/NFTCollectionFactory.json";
-import Web3 from "web3";
 import axios from "axios";
 import { fetchNfts } from "@/state/appStateSlice";
 import { AppDispatch } from "@/state/store";
 import { useDispatch } from "react-redux";
+import { useEthersSigner } from "@/pages/_app";
 
 
 // The AddProductModal component is used to add a product to the marketplace
@@ -35,7 +35,9 @@ const AddCollectionModal = () => {
     const [debouncedPrice] = useDebounce(price, 500);
     const [debouncedTotalSupply] = useDebounce(totalSupply, 500);
 
-    const { data: signer } = useSigner();
+
+    const mySigner = useEthersSigner();
+    const chainId = useChainId();
 
     // Clear the input fields after the product is added to the marketplace
     const clearForm = () => {
@@ -59,16 +61,15 @@ const AddCollectionModal = () => {
         console.log(imageURI);
 
         // 1. Make a createCollection txn 
-        const mySigner = signer as Signer;
+        // const mySigner = signer as Signer;
         const contract = new ethers.Contract(SCROLL_SEPOLIA_CA, NFTCollectionFactory.abi, mySigner);
+
 
         const priceInWei = etherToWei(price);
         const _totalSupply = BigInt(totalSupply);
 
-        const chainId = await mySigner.getChainId();
-
         console.log({
-            name, symbol,priceInWei, _totalSupply, imageURI
+            name, symbol, priceInWei, _totalSupply, imageURI
         })
         const tx = await contract.createCollection(name, symbol, priceInWei, _totalSupply, imageURI);
 
@@ -78,18 +79,18 @@ const AddCollectionModal = () => {
 
         const filter = contract.filters.CollectionCreated();
         const events = await contract.queryFilter(filter, response.blockNumber);
-        console.log(events[0].args?.collectionAddress || "hello");
+        console.log(events);
 
         const eventObj = {
             chainId,
-            contractAddress: events[0].args?.collectionAddress,
-            name: events[0].args?.name,
-            symbol: events[0].args?.symbol,
-            creator: events[0].args?.owner,
-            createdAt: Number(String(events[0].args?.timeCreated)),
-            price: Number(String(events[0].args?.price)),
-            maxSupply: Number(String(events[0].args?.maxSupply)),
-            imageURI: events[0].args?.imageURI,
+            contractAddress: events[0].args[0],
+            name: events[0].args[1],
+            symbol: events[0].args[2],
+            creator: events[0].args[3],
+            createdAt: Number(String(events[0].args[4])),
+            price: Number(String(events[0].args[5])),
+            maxSupply: Number(String(events[0].args[6])),
+            imageURI: events[0].args[7],
 
         }
         console.log(eventObj);

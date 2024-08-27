@@ -4,9 +4,10 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchNfts } from '../state/appStateSlice';
 import { toast } from 'react-toastify';
-import { ethers, Signer } from 'ethers';
+import { ethers, parseUnits } from 'ethers';
 import NFTCollection from "../abi/NFTCollection.json";
-import { useProvider, useSigner } from 'wagmi';
+import { useEthersProvider, useEthersSigner } from '@/pages/_app';
+import { useChainId } from 'wagmi';
 
 const CollectionList = () => {
 
@@ -14,13 +15,26 @@ const CollectionList = () => {
     const loading = useSelector((state: RootState) => state.appState.loading);
     const dispatch = useDispatch<AppDispatch>();
 
-    const { data: signer } = useSigner();
-    const provider = useProvider();
+    const mySigner = useEthersSigner();
+    const myProvider = useEthersProvider();
+    const chainId = useChainId();
+
+    const getAmountMinted = (contractAddress: string) => {
+        // const contract = new ethers.Contract(contractAddress, NFTCollection.abi, myProvider);
+        // const tokenId = await contract._tokenIds();
+        // return String(tokenId);
+        console.log("hello")
+        return "hello"
+    }
 
     const handleMintNFT = async (imageURI: string, name: string, contractAddress: string, price: number) => {
-        console.log(imageURI, name, contractAddress, price);
-        const contract = new ethers.Contract(contractAddress, NFTCollection.abi, provider);
+
+        const contract = new ethers.Contract(contractAddress, NFTCollection.abi, myProvider);
         const tokenId = await contract._tokenIds();
+        // const maxSupply = await contract.maxSupply();
+        // const _initialImageURI = await contract._imageURI();
+        // const price_ = await contract.price()
+
         const nameAdd = Number(String(tokenId)) + 1;
 
         const metadata = {
@@ -54,24 +68,27 @@ const CollectionList = () => {
             "animation_url": "ipfs://QmExampleHash67890/animation.mp4"
         }
         const tokenURI = await getTokenURI(metadata);
+        console.log(tokenURI)
 
-        // // 1. Make a createCollection txn 
-        const mySigner = signer as Signer;
-        const mintNFTcontract = new ethers.Contract(SCROLL_SEPOLIA_CA, NFTCollection.abi, mySigner);
-        // amount, tokenURI
-        const amount = BigInt(1);
+        const mintNFTcontract = new ethers.Contract(contractAddress, NFTCollection.abi, mySigner);
 
-        const tx = await mintNFTcontract.mintNFT(amount, tokenURI, {
-            value: BigInt(0)
+        const tx = await mintNFTcontract.mintNFT("https://maroon-major-crawdad-175.mypinata.cloud/ipfs/bafkreid4xdpjo2bmjiurykquhsnni5yaf44jwbkslpin6yv5eeig45wcii", {
+            value: BigInt(price),
         });
-        await tx.wait();
+        const response = await tx.wait();
+        console.log(response);
 
-        const contract_ = new ethers.Contract(contractAddress, NFTCollection.abi, provider);
+        const contract_ = new ethers.Contract(contractAddress, NFTCollection.abi, myProvider);
         const newTokenId = await contract_._tokenIds();
         console.log(String(newTokenId));
 
 
-        // Emit event and update database (amount minted) with it;
+        // Emit event and update database (amount minted) with it; 
+        // Amount minted  // or do this approach
+        // Better approach next time, store all items fetched from the DB in an array, loop through and create a separate component, that way it's easier to manipulate
+
+        // Remove amount minted field for now
+        // toastify...
     }
 
     const mintNFT = async (imageURI: string, name: string, contractAddress: string, price: number) => {
@@ -114,6 +131,7 @@ const CollectionList = () => {
                         <th className='py-3 bg-gray-800 text-[#ffffff]'>Address</th>
                         <th className='py-3 bg-gray-800 text-[#ffffff]'>Price</th>
                         <th className='py-3 bg-gray-800 text-[#ffffff]'>Total Supply</th>
+                        <th className='py-3 bg-gray-800 text-[#ffffff]'>Amount Minted</th>
                         <th className='py-3 bg-gray-800 text-[#ffffff]'>Mint</th>
                     </tr>
                 </thead>
@@ -130,9 +148,11 @@ const CollectionList = () => {
                                 <td className='py-6 px-6'>{truncateAddress(el.contractAddress)}</td>
                                 <td className='py-6 px-6'>{Number(weiToEther(String(el.price)))}</td>
                                 <td className='py-6 px-6'>{el.maxSupply}</td>
-
+                                <td className='py-6 px-6'>{getAmountMinted(el.contractAddress)}</td>
                                 <td className='py-6 px-6'>
-                                    <button className='bg-gray-800 text-[#ffffff] py-1 px-4' onClick={() => mintNFT(el.imageURI, el.name, el.contractAddress, el.price)}>
+                                    <button className='bg-gray-800 text-[#ffffff] py-1 px-4'
+                                        onClick={() => mintNFT(el.imageURI, el.name, el.contractAddress, el.price)}
+                                    >
                                         Mint
                                     </button>
                                 </td>

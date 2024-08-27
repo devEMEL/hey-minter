@@ -39,7 +39,7 @@ const Product = ({ id, setError, setLoading, clear }: any) => {
     console.log(rawProduct);
     // Use the useContractSend hook to purchase the product with the id passed in, via the marketplace contract
     // const newsPriceInWei = ethers.utils.parseEther(debouncedNewsPrice.toString());
-    const _amount = ethers.utils.parseEther(tipAmount.toString());
+    const _amount = ethers.parseEther(tipAmount.toString());
     const { writeAsync: tipCreator } = useContractSend("tipCreator", [Number(id)], _amount);
     const { writeAsync: likeAndDislikeNews } = useContractSend("likeAndDislikeNews", [Number(id)], undefined);
 

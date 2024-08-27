@@ -4,8 +4,8 @@ import Blockies from 'react-blockies';
 
 import { FileObject, PinataSDK } from "pinata"
 
-export const SCROLL_SEPOLIA_CA = "0xAfF72Db3fA597546517d172be9A530E99AEDddFE";
-export const SEPOLIA_CA = "0x1347e5a8D1491C3d8c3B57E294E6f5E4FB43731c";
+export const SCROLL_SEPOLIA_CA = "0xcCE773934255eB4DA085e0E68A27F2251dA84F67";
+
 
 const IMAGE_SAMPLE = "https://maroon-major-crawdad-175.mypinata.cloud/ipfs/bafkreiaiqqqnwyvi5gksqfwsqihdt7izf5fklnbehal7elyusducquwq6i"
 
@@ -39,11 +39,11 @@ export const imageURIToSrc = (imageURI: string) => {
 }
 
 export const etherToWei = (amountInEther: string) => {
-    return ethers.utils.parseEther(amountInEther);
+    return ethers.parseEther(amountInEther);
 }
 
 export const weiToEther = (amountInWei: string) => {
-    return ethers.utils.formatEther(amountInWei);
+    return ethers.formatEther(amountInWei);
 }
 
 export const getImageURI = async (imageFile: FileObject) => {
@@ -150,3 +150,4 @@ await main();
  */
 
 // https://maroon-major-crawdad-175.mypinata.cloud/ipfs/bafkreid4xdpjo2bmjiurykquhsnni5yaf44jwbkslpin6yv5eeig45wcii
+
