@@ -8,7 +8,7 @@ type Props = {
 const navigation = [
     {
         name: "Twitter Icon",
-        href: "https://portal.dymension.xyz/ibc",
+        href: "https://x.com/Kombat_Odyssey",
         icon: TwitterIcon,
     },
     {
