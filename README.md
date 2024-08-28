@@ -17,6 +17,9 @@ Hey Minter is a platform that allows users to easily create their own NFT collec
 - *User-Friendly Interface*: Intuitive interface for both creators and collectors.
 - *Scalable Architecture*: Built to handle multiple collections and mints seamlessly.
 
+##### Project demo URL
+https://hey-minter-edu.vercel.app/
+
 ##### Network details
 - *Network name*: Open Campus Codex Sepolia
 - *RPC URL*: https://open-campus-codex-sepolia.drpc.org
