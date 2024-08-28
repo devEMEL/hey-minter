@@ -122,7 +122,7 @@ const CollectionList = () => {
         if (loading === false) {
             console.log(chainId);
             // console.log("LFG");
-            dispatch(fetchNfts(`https://hey-minter-api.vercel.app/api/v1/nfts?chainId=${chainId}`));
+            dispatch(fetchNfts("https://hey-minter-api.vercel.app/api/v1/nfts"));
         }
     })
 
@@ -137,8 +137,8 @@ const CollectionList = () => {
                         <th className='py-3 bg-gray-800 text-[#ffffff]'>N</th>
                         <th className='py-3 bg-gray-800 text-[#ffffff]'>Image</th>
                         <th className='py-3 bg-gray-800 text-[#ffffff]'>Name</th>
-                        <th className='py-3 bg-gray-800 text-[#ffffff]'>Address</th>
-                        <th className='py-3 bg-gray-800 text-[#ffffff]'>Price</th>
+                        <th className='py-3 bg-gray-800 text-[#ffffff]'>Address  (CA)</th>
+                        <th className='py-3 bg-gray-800 text-[#ffffff]'>Price (ETH)</th>
                         <th className='py-3 bg-gray-800 text-[#ffffff]'>Total Supply</th>
                         <th className='py-3 bg-gray-800 text-[#ffffff]'>Mint</th>
                     </tr>
@@ -154,7 +154,7 @@ const CollectionList = () => {
                                 </td>
                                 <td className='py-6 px-6'>{el.name}</td>
                                 <td className='py-6 px-6'>{truncateAddress(el.contractAddress)}</td>
-                                <td className='py-6 px-6 text-[20px]'>{Number(weiToEther(String(el.price)))} <span className='text-[16px]'>EDU</span></td>
+                                <td className='py-6 px-6 text-[20px]'>{Number(weiToEther(String(el.price)))}</td>
                                 <td className='py-6 px-6'>{el.maxSupply}</td>
                                 <td className='py-6 px-6'>
                                     <button className='bg-gray-800 text-[#ffffff] py-1 px-4'
