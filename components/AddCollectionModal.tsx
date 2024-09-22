@@ -1,28 +1,26 @@
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { PlusIcon } from "@heroicons/react/24/outline";
-import { useDebounce } from "use-debounce";
-import { etherToWei, getImageURI, OPEN_CAMPUS_CA } from "@/helpers";
-import { useChainId } from "wagmi";
-import { FileObject } from "pinata";
-import { ethers } from "ethers";
-import NFTCollectionFactory from "../abi/NFTCollectionFactory.json";
-import axios from "axios";
-import { useEthersSigner } from "@/pages/_app";
-
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { PlusIcon } from '@heroicons/react/24/outline';
+import { useDebounce } from 'use-debounce';
+import { etherToWei, getImageURI, OPEN_CAMPUS_CA } from '@/helpers';
+import { useChainId } from 'wagmi';
+import { FileObject } from 'pinata';
+import { ethers } from 'ethers';
+import NFTCollectionFactory from '../abi/NFTCollectionFactory.json';
+import axios from 'axios';
+import { useEthersSigner } from '@/pages/_app';
 
 // The AddProductModal component is used to add a product to the marketplace
 const AddCollectionModal = () => {
     // The visible state is used to toggle the modal
     const [visible, setVisible] = useState(false);
     // The following states are used to store the values of the form fields
-    const [name, setName] = useState("");
-    const [symbol, setSymbol] = useState("");
-    const [imageFile, setImageFile] = useState<FileObject>(new File([], ""));
-    const [imagePreview, setImagePreview] = useState("");
-    const [price, setPrice] = useState("");
-    const [totalSupply, setTotalSupply] = useState("");
-
+    const [name, setName] = useState('');
+    const [symbol, setSymbol] = useState('');
+    const [imageFile, setImageFile] = useState<FileObject>(new File([], ''));
+    const [imagePreview, setImagePreview] = useState('');
+    const [price, setPrice] = useState('');
+    const [totalSupply, setTotalSupply] = useState('');
 
     // The following states are used to store the debounced values of the form fields
     const [debouncedName] = useDebounce(name, 500);
@@ -32,24 +30,26 @@ const AddCollectionModal = () => {
     const [debouncedPrice] = useDebounce(price, 500);
     const [debouncedTotalSupply] = useDebounce(totalSupply, 500);
 
-
     const mySigner = useEthersSigner();
     const chainId = useChainId();
 
     // Clear the input fields after the product is added to the marketplace
     const clearForm = () => {
-        setName("");
-        setSymbol("");
-        setImageFile(new File([], ""));
-        setImagePreview("");
-        setPrice("");
-        setTotalSupply("");
-        console.log("cleared");
+        setName('');
+        setSymbol('');
+        setImageFile(new File([], ''));
+        setImagePreview('');
+        setPrice('');
+        setTotalSupply('');
+        console.log('cleared');
         console.log({
-            debouncedName, debouncedSymbol, debouncedImageFile, debouncedPrice, debouncedTotalSupply
+            debouncedName,
+            debouncedSymbol,
+            debouncedImageFile,
+            debouncedPrice,
+            debouncedTotalSupply,
         });
     };
-
 
     // Define function that handles the creation of a product through the marketplace contract
     const handleCreateProduct = async () => {
@@ -57,22 +57,34 @@ const AddCollectionModal = () => {
         const imageURI = await getImageURI(debouncedImageFile);
         console.log(imageURI);
 
-        // 1. Make a createCollection txn 
+        // 1. Make a createCollection txn
         // const mySigner = signer as Signer;
-        const contract = new ethers.Contract(OPEN_CAMPUS_CA, NFTCollectionFactory.abi, mySigner);
-
+        const contract = new ethers.Contract(
+            OPEN_CAMPUS_CA,
+            NFTCollectionFactory.abi,
+            mySigner
+        );
 
         const priceInWei = etherToWei(price);
         const _totalSupply = BigInt(totalSupply);
 
         console.log({
-            name, symbol, priceInWei, _totalSupply, imageURI
-        })
-        const tx = await contract.createCollection(name, symbol, priceInWei, _totalSupply, imageURI);
+            name,
+            symbol,
+            priceInWei,
+            _totalSupply,
+            imageURI,
+        });
+        const tx = await contract.createCollection(
+            name,
+            symbol,
+            priceInWei,
+            _totalSupply,
+            imageURI
+        );
 
         const response = await tx.wait();
         console.log(response);
-
 
         const filter = contract.filters.CollectionCreated();
         const events = await contract.queryFilter(filter, response.blockNumber);
@@ -88,49 +100,58 @@ const AddCollectionModal = () => {
             price: Number(String(events[0].args[5])),
             maxSupply: Number(String(events[0].args[6])),
             imageURI: events[0].args[7],
-
-        }
+        };
         console.log(eventObj);
 
-        const postObj = await axios.post("https://hey-minter-api.vercel.app/api/v1/nfts", eventObj);
+        const postObj = await axios.post(
+            'https://hey-minter-api.vercel.app/api/v1/nfts',
+            eventObj
+        );
         console.log(postObj);
-
     };
 
     // Define function that handles the creation of a product, if a user submits the product form
     const addProduct = async (e: any) => {
         e.preventDefault();
-        if (!debouncedName || !debouncedSymbol || !debouncedImageFile || !debouncedImagePreview || !debouncedPrice || !debouncedTotalSupply) return;
+        if (
+            !debouncedName ||
+            !debouncedSymbol ||
+            !debouncedImageFile ||
+            !debouncedImagePreview ||
+            !debouncedPrice ||
+            !debouncedTotalSupply
+        )
+            return;
         console.log({
-            debouncedName, debouncedSymbol, debouncedImageFile, debouncedPrice, debouncedTotalSupply
+            debouncedName,
+            debouncedSymbol,
+            debouncedImageFile,
+            debouncedPrice,
+            debouncedTotalSupply,
         });
         try {
-            console.log("start");
+            console.log('start');
             await toast.promise(handleCreateProduct(), {
-                pending: "Creating NFT Collection...",
-                success: "NFT Collection created successfully",
-                error: "Something went wrong. Try again.",
+                pending: 'Creating NFT Collection...',
+                success: 'NFT Collection created successfully',
+                error: 'Something went wrong. Try again.',
             });
-
         } catch (e: any) {
             console.log({ e });
-            toast.error(e?.message || "Something went wrong. Try again.");
+            toast.error(e?.message || 'Something went wrong. Try again.');
         } finally {
-
             clearForm();
             setVisible(false);
         }
-
-
     };
 
     useEffect(() => {
         // getChainId();
-    })
+    });
 
     // Define the JSX that will be rendered
     return (
-        <div className={"flex flex-row w-full justify-between font-lato"}>
+        <div className={'flex flex-row w-full justify-between font-lato'}>
             <div>
                 {/* Add Product Button that opens the modal */}
 
@@ -142,7 +163,8 @@ const AddCollectionModal = () => {
                     data-bs-target="#exampleModalCenter"
                 >
                     <p className="flex">
-                        <PlusIcon width="20" /> <span className="ml-2">Create Collection</span>
+                        <PlusIcon width="20" />{' '}
+                        <span className="ml-2">Create Collection</span>
                     </p>
                 </button>
 
@@ -169,7 +191,9 @@ const AddCollectionModal = () => {
                                 >
                                     {/* Input fields for the product */}
                                     <div className="bg-[#ffffff] px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                                        <p className="text-center py-4 text-2xl">Create NFT Collection</p>
+                                        <p className="text-center py-4 text-2xl">
+                                            Create NFT Collection
+                                        </p>
                                         <label>Name</label>
                                         <input
                                             onChange={(e) => {
@@ -191,37 +215,49 @@ const AddCollectionModal = () => {
                                             type="text"
                                             className="w-full bg-gray-100 p-2 mt-2 mb-3 bg-transparent focus:outline-none border-b border-[#000000]"
                                         />
-                                        <label className="relative">NFT Image
+                                        <label className="relative">
+                                            NFT Image
                                             <input
                                                 onChange={async (e) => {
-                                                    const file = e.target.files[0];
+                                                    const file =
+                                                        e.target.files[0];
                                                     if (file) {
-
                                                         setImageFile(file);
-                                                        const reader = new FileReader();
-                                                        console.log("hi")
-                                                        reader.onloadend = () => {
+                                                        const reader =
+                                                            new FileReader();
+                                                        console.log('hi');
+                                                        reader.onloadend =
+                                                            () => {
+                                                                setImagePreview(
+                                                                    reader.result
+                                                                );
 
-                                                            setImagePreview(reader.result);
-
-                                                            console.log("hello")
-                                                        };
-                                                        reader.readAsDataURL(file);
-
+                                                                console.log(
+                                                                    'hello'
+                                                                );
+                                                            };
+                                                        reader.readAsDataURL(
+                                                            file
+                                                        );
                                                     }
-
                                                 }}
-
                                                 required
                                                 type="file"
                                                 accept="image/*"
                                                 className="w-full bg-gray-100 p-2 mt-2 mb-3 bg-transparent focus:outline-none border-b border-[#000000]"
                                             />
-                                            {
-                                                imagePreview && (<img src={imagePreview} alt="image preview" className="w-20 bg-black absolute top-[0%] right-[20%]" />)
-                                            }
+                                            {imagePreview && (
+                                                <img
+                                                    src={imagePreview}
+                                                    alt="image preview"
+                                                    className="w-20 bg-black absolute top-[0%] right-[20%]"
+                                                />
+                                            )}
                                         </label>
-                                        <label>Price (In ETH, input 0 if its a free collection)</label>
+                                        <label>
+                                            Price (In ETH, input 0 if its a free
+                                            collection)
+                                        </label>
                                         <input
                                             onChange={(e) => {
                                                 setPrice(e.target.value);
@@ -241,17 +277,19 @@ const AddCollectionModal = () => {
                                             type="text"
                                             className="w-full bg-gray-100 p-2 mt-2 mb-3 bg-transparent focus:outline-none border-b border-[#000000]"
                                         />
-
                                     </div>
                                     {/* Button to close the modal */}
                                     <div className="bg-[#ffffff] px-4 py-3 text-right">
                                         <button
                                             type="button"
                                             className="py-2 px-4 text-[#000000] rounded mr-2"
-                                            onClick={() => { setVisible(false); clearForm() }}
-
+                                            onClick={() => {
+                                                setVisible(false);
+                                                clearForm();
+                                            }}
                                         >
-                                            <i className="fas fa-times"></i> Cancel
+                                            <i className="fas fa-times"></i>{' '}
+                                            Cancel
                                         </button>
                                         {/* Button to add the product to the marketplace */}
                                         <button

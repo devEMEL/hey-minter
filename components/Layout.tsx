@@ -1,6 +1,6 @@
-import { FC, ReactNode } from "react";
-import Footer from "./Footer";
-import Header from "./Header";
+import { FC, ReactNode } from 'react';
+import Footer from './Footer';
+import Header from './Header';
 
 interface Props {
     children: ReactNode;
@@ -14,8 +14,10 @@ const Layout: FC<Props> = ({ children }) => {
                     {/* https://bg.ibelick.com/ */}
                 </div>
                 <Header />
-                <div className="py-16 max-w-7xl mx-auto space-y-8 sm:px-6 lg:px-8">{children}</div>
-                
+                <div className="py-16 max-w-7xl mx-auto space-y-8 sm:px-6 lg:px-8">
+                    {children}
+                </div>
+
                 <Footer />
             </div>
         </>

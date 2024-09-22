@@ -1,6 +1,5 @@
-
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 interface itemsInterface {
     chainId: number;
@@ -18,7 +17,7 @@ interface stateInterface {
     items: Array<itemsInterface>;
     loading: boolean;
     error: any;
-};
+}
 
 const initialState: stateInterface = {
     items: [
@@ -38,18 +37,18 @@ const initialState: stateInterface = {
     error: null,
 };
 
-export const fetchNfts = createAsyncThunk("nfts/fetchNfts", async (requestURL: string) => {
-    const response = await axios.get(requestURL);
-    return response.data.data.nfts;
-
-})
+export const fetchNfts = createAsyncThunk(
+    'nfts/fetchNfts',
+    async (requestURL: string) => {
+        const response = await axios.get(requestURL);
+        return response.data.data.nfts;
+    }
+);
 
 const appStateSlice = createSlice({
-    name: "appState",
+    name: 'appState',
     initialState,
-    reducers: {
-
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(fetchNfts.pending, (state) => {
@@ -64,8 +63,10 @@ const appStateSlice = createSlice({
                 state.loading = false;
                 state.error = action.error.message;
             });
-    }
+    },
 });
 
-export const {/*..FUNCTIONS FROM REDUCERS AND EXTRAREDUCERS..*/ } = appStateSlice.actions;
+export const {
+    /*..FUNCTIONS FROM REDUCERS AND EXTRAREDUCERS..*/
+} = appStateSlice.actions;
 export default appStateSlice.reducer;

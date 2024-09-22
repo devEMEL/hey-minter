@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { DiscordIcon, TwitterIcon } from "./Icons";
+import Link from 'next/link';
+import { DiscordIcon, TwitterIcon } from './Icons';
 
 type Props = {
     className?: string;
@@ -7,17 +7,16 @@ type Props = {
 
 const navigation = [
     {
-        name: "Twitter Icon",
-        href: "https://x.com/Kombat_Odyssey",
+        name: 'Twitter Icon',
+        href: 'https://x.com/Kombat_Odyssey',
         icon: TwitterIcon,
     },
     {
-        name: "Discord Icon",
-        href: "https://discord.com/invite/QKvwARq5",
+        name: 'Discord Icon',
+        href: 'https://discord.com/invite/QKvwARq5',
         icon: DiscordIcon,
-    }
+    },
 ];
-
 
 export default function Footer() {
     return (
@@ -31,18 +30,15 @@ export default function Footer() {
                             className=" hover:text-forest mt-5"
                             target="_blank"
                             rel="noopener noreferrer"
-
                         >
                             {item.icon()}
                         </Link>
-
                     ))}
-
-
                 </div>
-                <p className="text-center mt-4 tracking-widest">A product of Kombat Odyssey</p>
+                <p className="text-center mt-4 tracking-widest">
+                    A product of Kombat Odyssey
+                </p>
             </div>
         </footer>
-        
     );
 }

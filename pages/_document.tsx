@@ -4,9 +4,7 @@ class MyDocument extends Document {
     render() {
         return (
             <Html>
-                <Head>
-                    {/* Custom head elements can be added here */}
-                </Head>
+                <Head>{/* Custom head elements can be added here */}</Head>
                 <body>
                     <Main />
                     <NextScript />
