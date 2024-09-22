@@ -29,7 +29,7 @@ export default function Header() {
     }
 
     return (
-        <div className="bg-[#ffffff] font-qwitcher">
+        <div className="bg-[#ffffff] font-lato">
             <header className="mx-auto max-w-7xl px-5 py-4 sm:px-6 lg:px-8 text-[#000000]">
                 <nav className="flex justify-between itens-center">
                     <div>

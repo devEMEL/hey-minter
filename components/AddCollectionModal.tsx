@@ -130,7 +130,7 @@ const AddCollectionModal = () => {
 
     // Define the JSX that will be rendered
     return (
-        <div className={"flex flex-row w-full justify-between font-qwitcher"}>
+        <div className={"flex flex-row w-full justify-between font-lato"}>
             <div>
                 {/* Add Product Button that opens the modal */}
 
@@ -149,7 +149,7 @@ const AddCollectionModal = () => {
                 {/* Modal */}
                 {visible && (
                     <div
-                        className="fixed z-40 overflow-y-auto top-0 w-full left-0 font-roboto"
+                        className="fixed z-40 overflow-y-auto top-0 w-full left-0 font-lato"
                         id="modal"
                     >
                         {/* Form with input fields for the product, that triggers the addProduct function on submit */}

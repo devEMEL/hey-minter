@@ -32,6 +32,7 @@ module.exports = {
         moderustic: ['Moderustic', 'sans-serif'],
         qwitcher: ['Qwitcher Grypen', 'cursive'],
         matemasie: ['Matemasie', 'serif'],
+        lato: ['Lato']
       },
     },
   },
