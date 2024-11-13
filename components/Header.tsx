@@ -7,6 +7,7 @@ import Link from 'next/link';
 import kombatOdysseyImg from '../public/kombat-odyssey.jpeg';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
+
 export default function Header() {
     // Use the useAccount hook to store the user's address
     const { address, isConnected } = useAccount();
@@ -66,7 +67,7 @@ export default function Header() {
                             </li>
                             <li>
                                 <Link
-                                    href="/myNFTs"
+                                    href="/mynfts"
                                     className="hover:text-gray-500"
                                 >
                                     My NFTs

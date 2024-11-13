@@ -27,7 +27,7 @@ const MintSuccessNotification = ({ isVisible, setVisibility }) => {
                             elit. Inventore cum error incidunt adipisci quisquam
                             id voluptates eius, rem officiis voluptas ipsam
                             beatae cumque molestiae similique doloribus,
-                            exercitationem nobis culpa provident.
+                            exercitationem nobis culpa provident. Great job
                         </div>
                         <button
                             onClick={() => {
