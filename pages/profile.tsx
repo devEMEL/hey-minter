@@ -259,6 +259,7 @@ const Profile = () => {
                     </tr>
                 </thead>
                 <tbody className="text-gray-800 text-center">
+                    
                     {myItems &&
                         myItems.map((el, index) => (
                             <tr

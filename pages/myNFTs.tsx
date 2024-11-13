@@ -77,7 +77,7 @@ const MyNFTs = () => {
                 <div className="flex gap-1 flex-wrap">
                     {NFTs.length > 0 ?
                         NFTs.map((el) => (
-                            <div className="w-1/2 md:w-1/4 mb-10 cursor-pointer">
+                            <div key={el.name} className="w-1/2 md:w-1/4 mb-10 cursor-pointer">
                                 <div className="w-[95%] flex justify-center">
                                     <div className="w-full">
                                         <img
