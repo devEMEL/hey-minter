@@ -15,12 +15,12 @@ import { Provider } from 'react-redux';
 import { store } from '../state/store';
 
 // import { publicProvider } from "wagmi/providers/public";
-import { arbitrumSepolia, scrollSepolia } from 'wagmi/chains';
 import { BrowserProvider, JsonRpcSigner } from 'ethers';
 import { useMemo } from 'react';
 import type { Account, Chain, Client, Transport } from 'viem';
 import { type Config, useClient, useConnectorClient } from 'wagmi';
 import { FallbackProvider, JsonRpcProvider } from 'ethers';
+import { scrollSepolia } from 'wagmi/chains';
 
 export function clientToProvider(client: Client<Transport, Chain>) {
     const { chain, transport } = client;
@@ -92,12 +92,11 @@ const openCampus = {
 } as const satisfies Chain;
 
 const config = getDefaultConfig({
-    appName: 'NewzPay-Scroll',
+    appName: 'hey-minter',
     projectId: 'cdddc2c45ee7a243f73916dfe293c0ca',
-    chains: [openCampus, scrollSepolia],
+    chains: [openCampus],
     transports: {
         [openCampus.id]: http(),
-        [scrollSepolia.id]: http(),
     },
 });
 

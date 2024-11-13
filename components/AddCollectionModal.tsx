@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import { useDebounce } from 'use-debounce';
-import { etherToWei, getImageURI, OPEN_CAMPUS_CA } from '@/helpers';
+import { etherToWei, getImageURI, OPEN_CAMPUS_CA, SCROLL_SEPOLIA_CA } from '@/helpers';
 import { useChainId } from 'wagmi';
 import { FileObject } from 'pinata';
 import { ethers } from 'ethers';
@@ -61,6 +61,7 @@ const AddCollectionModal = () => {
         // const mySigner = signer as Signer;
         const contract = new ethers.Contract(
             OPEN_CAMPUS_CA,
+            // SCROLL_SEPOLIA_CA,
             NFTCollectionFactory.abi,
             mySigner
         );

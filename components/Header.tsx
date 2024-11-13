@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useAccount, useBalance } from 'wagmi';
 import Link from 'next/link';
-import { ConnectButtonJSX } from './ConnectButtonJSX';
 import kombatOdysseyImg from '../public/kombat-odyssey.jpeg';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
@@ -58,8 +57,10 @@ export default function Header() {
                                 </Link>
                             </li>
                             <li>
-                                {/* <Link href="/profile" className="hover:text-gray-500">My Profile</Link> */}
-                                <p className="text-gray-500">My Profile</p>
+                                <Link href="/profile" className="hover:text-gray-500">My Collections</Link>
+                            </li>
+                            <li>
+                                <Link href="/profile" className="hover:text-gray-500">My NFTs</Link>
                             </li>
                         </ul>
                     </div>

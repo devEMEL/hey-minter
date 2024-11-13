@@ -13,20 +13,23 @@ import { toast } from 'react-toastify';
 import { ethers, parseUnits } from 'ethers';
 import NFTCollection from '../abi/NFTCollection.json';
 import { useEthersProvider, useEthersSigner } from '@/pages/_app';
-import { useChainId } from 'wagmi';
+import { useAccount, useChainId } from 'wagmi';
 import Image from 'next/image';
+import kombat from '../public/kombat-odyssey.jpeg';
 
-const CollectionList = () => {
+const Profile = () => {
     // const [isVisible, setIsVisible] = useState(true);
 
     const items = useSelector((state: RootState) => state.appState.items);
     const loading = useSelector((state: RootState) => state.appState.loading);
     const dispatch = useDispatch<AppDispatch>();
 
+    const { address } = useAccount();
     const mySigner = useEthersSigner();
     const myProvider = useEthersProvider();
     const chainId = useChainId();
 
+    const myItems = items.filter(el => (el.creator).toLowerCase() === address?.toLowerCase());
 
 
     const getAmountMinted = (contractAddress: string) => {
@@ -252,8 +255,8 @@ const CollectionList = () => {
                     </tr>
                 </thead>
                 <tbody className="text-gray-800 text-center">
-                    {items &&
-                        items.map((el, index) => (
+                    {myItems &&
+                        myItems.map((el, index) => (
                             <tr
                                 key={`${index}l`}
                                 className="bg-[#ffffff] text-center"
@@ -298,4 +301,4 @@ const CollectionList = () => {
     );
 };
 
-export default CollectionList;
+export default Profile;
