@@ -16,6 +16,7 @@ Hey Minter is a platform that allows users to easily create their own NFT collec
 
 -   _Create NFT Collections_: Users can create and manage their own NFT collections with ease.
 -   _Mint NFTs_: Mint unique NFTs from the collections created on the platform.
+-   _View created and NFT Collections_: Users can view all NFT collections created and minted by them.
 -   _User-Friendly Interface_: Intuitive interface for both creators and collectors.
 -   _Scalable Architecture_: Built to handle multiple collections and mints seamlessly.
 
