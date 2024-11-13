@@ -27,8 +27,6 @@ const CollectionList = () => {
     const myProvider = useEthersProvider();
     const chainId = useChainId();
 
-
-
     const getAmountMinted = (contractAddress: string) => {
         // const contract = new ethers.Contract(contractAddress, NFTCollection.abi, myProvider);
         // const tokenId = await contract._tokenIds();
@@ -176,17 +174,18 @@ const CollectionList = () => {
                 render: (
                     <div className="text-[#000000] bg-white p-4">
                         {srcImage && (
-                            <div className='flex flex-col justify-center items-center'>
-                                <h1 className='my-4'>NFT minted successfully...</h1>
-                                
-                                    <Image
-                                        src={srcImage}
-                                        alt="loading image"
-                                        width={150}
-                                        height={150}
-                                        className="rounded-lg"
-                                    />
-                             
+                            <div className="flex flex-col justify-center items-center">
+                                <h1 className="my-4">
+                                    NFT minted successfully...
+                                </h1>
+
+                                <Image
+                                    src={srcImage}
+                                    alt="loading image"
+                                    width={150}
+                                    height={150}
+                                    className="rounded-lg"
+                                />
 
                                 <div className="my-4 text-center">
                                     {name} #{newTokenId}
@@ -219,7 +218,9 @@ const CollectionList = () => {
             console.log(chainId);
             // console.log("LFG");
             dispatch(
-                fetchNfts('https://hey-minter-api.vercel.app/api/v1/nfts/?chainId=656476')
+                fetchNfts(
+                    'https://hey-minter-api.vercel.app/api/v1/nfts/?chainId=656476'
+                )
             );
         }
     });

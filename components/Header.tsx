@@ -57,10 +57,20 @@ export default function Header() {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/profile" className="hover:text-gray-500">My Collections</Link>
+                                <Link
+                                    href="/profile"
+                                    className="hover:text-gray-500"
+                                >
+                                    My Collections
+                                </Link>
                             </li>
                             <li>
-                                <Link href="/profile" className="hover:text-gray-500">My NFTs</Link>
+                                <Link
+                                    href="/myNFTs"
+                                    className="hover:text-gray-500"
+                                >
+                                    My NFTs
+                                </Link>
                             </li>
                         </ul>
                     </div>
