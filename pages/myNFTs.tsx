@@ -16,7 +16,7 @@ interface nftsObj {
     _imageURI: string;
 }
 
-const myNFTs = () => {
+const MyNFTs = () => {
     const [NFTs, setNFTs] = useState<nftsObj[]>([]);
     const items = useSelector((state: RootState) => state.appState.items);
     const mySigner = useEthersSigner();
@@ -108,4 +108,4 @@ const myNFTs = () => {
 };
 
 
-export default myNFTs;
+export default MyNFTs;
