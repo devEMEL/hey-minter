@@ -75,7 +75,7 @@ const MyNFTs = () => {
             <div className="text-white min-h-screen">
                 {/* display all NFTs owned by the user */}
                 <div className="flex gap-1 flex-wrap">
-                    {NFTs ?
+                    {NFTs.length > 0 ?
                         NFTs.map((el) => (
                             <div className="w-1/2 md:w-1/4 mb-10 cursor-pointer">
                                 <div className="w-[95%] flex justify-center">
@@ -98,8 +98,8 @@ const MyNFTs = () => {
                                 </div>
                             </div>
                         )) : (
-                            // <div className='text-white'>Loading</div>
-                            <Spinner />
+                            <div className='w-full flex justify-center'><Spinner /></div>
+                            
                         )}
                 </div>
             </div>
